@@ -328,8 +328,15 @@ Avoid simply stating the correct answer at the outset.
   ![mydocumentmodel_sequence_uml](https://github.com/user-attachments/assets/9bd164dc-17dc-49ee-8888-dc3914435b4f)
 
 
-* LangchainWorkflowModel Class/Sequence Diagram
-  ![Langchainworkflow_uml](https://github.com/user-attachments/assets/7eaa7da4-781c-4b34-a7f0-cfc883626c44)
+* LangchainWorkflowModel Class Diagram
+
+  ![langchain_github_langchainworkflowmodel_class_diagram](https://github.com/user-attachments/assets/8abdc15c-0a19-4e93-bc97-3783d07da36c)
+
+
+* LangchainWorkflowModel Sequence Diagram
+
+  ![langchain_github_langchainworkflowmodel_sequence_diagram](https://github.com/user-attachments/assets/0b376239-8c81-46b1-9661-62d332eaeedf)
+
 
 
 ## License

@@ -12,7 +12,7 @@ class LangchainWorkflowModel(QObject):
 
     def __init__(self):
         super().__init__()
-        self.ai_thread = None
+        self.langchain_workflow_thread = None
         self._prompt_list = None
         self._retriever = None
         self._llm_name = None
@@ -22,16 +22,16 @@ class LangchainWorkflowModel(QObject):
     def handle_thread_finished(self):
         print(f"{MODEL_MESSAGE.THREAD_FINISHED}")
         self.thread_finished_signal.emit()
-        self.ai_thread = None
+        self.langchain_workflow_thread = None
 
     def force_stop(self):
-        if self.ai_thread is not None:
-            self.ai_thread.set_force_stop(True)
+        if self.langchain_workflow_thread is not None:
+            self.langchain_workflow_thread.set_force_stop(True)
 
     def run_workflow(self, question):
-        if self.ai_thread is not None and self.ai_thread.isRunning():
+        if self.langchain_workflow_thread is not None and self.langchain_workflow_thread.isRunning():
             print(f"{MODEL_MESSAGE.THREAD_RUNNING}")
-            self.ai_thread.wait()
+            self.langchain_workflow_thread.wait()
 
         args = {}
         args["question"] = question
@@ -41,12 +41,12 @@ class LangchainWorkflowModel(QObject):
         args["search_result"] = self.search_result
         args["max_retries"] = self.max_retries
 
-        self.ai_thread = LangchainWorkflowThread(args)
-        self.ai_thread.started.connect(self.thread_started_signal.emit)
-        self.ai_thread.finished.connect(self.handle_thread_finished)
-        self.ai_thread.response_signal.connect(self.response_signal.emit)
-        self.ai_thread.response_finished_signal.connect(self.response_finished_signal.emit)
-        self.ai_thread.start()
+        self.langchain_workflow_thread = LangchainWorkflowThread(args)
+        self.langchain_workflow_thread.started.connect(self.thread_started_signal.emit)
+        self.langchain_workflow_thread.finished.connect(self.handle_thread_finished)
+        self.langchain_workflow_thread.response_signal.connect(self.response_signal.emit)
+        self.langchain_workflow_thread.response_finished_signal.connect(self.response_finished_signal.emit)
+        self.langchain_workflow_thread.start()
 
     @property
     def retriever(self):

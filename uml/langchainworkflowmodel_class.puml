@@ -5,7 +5,7 @@ class LangchainWorkflowModel {
     +thread_finished_signal: pyqtSignal
     +response_signal: pyqtSignal
     +response_finished_signal: pyqtSignal
-    -ai_thread: LangchainWorkflowThread
+    -langchain_workflow_thread: LangchainWorkflowThread
     -_prompt_list: List[str]
     -_retriever: Any
     -_llm_name: str
