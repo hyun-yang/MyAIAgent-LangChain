@@ -1,0 +1,58 @@
+@startuml
+
+class LangchainWorkflowModel {
+    +thread_started_signal: pyqtSignal
+    +thread_finished_signal: pyqtSignal
+    +response_signal: pyqtSignal
+    +response_finished_signal: pyqtSignal
+    -ai_thread: LangchainWorkflowThread
+    -_prompt_list: List[str]
+    -_retriever: Any
+    -_llm_name: str
+    -_search_result: int
+    -_max_retries: int
+    +run_workflow(question: str)
+    +handle_thread_finished()
+    +force_stop()
+}
+
+class LangchainWorkflowThread {
+    +response_signal: pyqtSignal
+    +response_finished_signal: pyqtSignal
+    -graph: CompiledStateGraph
+    -valid_source: bool
+    -invalid_source: bool
+    -final_response: Object
+    -llm: ChatOllama
+    -llm_json_mode: ChatOllama
+    -web_search_tool: TavilySearchResults
+    -search_result: int
+    -max_retries: int
+    +run()
+    +route_question()
+    +retrieve()
+    +grade_documents()
+    +decide_to_generate()
+    +web_search()
+    +generate()
+    +grade_generation_v_documents_and_question()
+    +generate_workflow()
+    +format_docs()
+    +handle_response()
+    +finish_run()
+}
+
+class GraphState {
+    +question: str
+    +generation: str
+    +web_search: str
+    +max_retries: int
+    +answers: int
+    +loop_step: int
+    +documents: List[str]
+}
+
+LangchainWorkflowModel --> LangchainWorkflowThread : uses
+LangchainWorkflowThread --> GraphState : uses
+
+@enduml

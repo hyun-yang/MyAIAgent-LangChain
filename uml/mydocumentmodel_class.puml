@@ -1,0 +1,48 @@
+@startuml
+
+class MyDocumentThread {
+    +document_preprocess_error_signal: pyqtSignal
+    +document_preprocess_finished_signal: pyqtSignal
+    +retriever_signal: pyqtSignal
+    -device: str
+    -vector_store: str
+    -embedding_model: str
+    -chunk_size: int
+    -chunk_overlap: int
+    -retrieve_docs: int
+    -file_path: str
+    -force_stop: bool
+    +__init__(args)
+    +run()
+    +set_force_stop(force_stop)
+    +finish_run(model, finish_reason)
+}
+
+class DocumentFactory {
+    +create_document_loader(file_path: str)
+}
+
+class VectorStoreFactory {
+    +create_vector_store(vector_store: str, documents, embedding)
+}
+
+class MyDocumentModel {
+    +thread_started_signal: pyqtSignal
+    +thread_finished_signal: pyqtSignal
+    +document_preprocess_error_signal: pyqtSignal
+    +document_preprocess_finished_signal: pyqtSignal
+    +retriever_signal: pyqtSignal
+    -my_document_thread: MyDocumentThread
+    -retriever: VectorStoreRetriever
+    +__init__()
+    +prepare_document(args)
+    +handle_thread_finished()
+    +get_retriever_docs(retriever)
+    +force_stop()
+}
+
+MyDocumentModel --> MyDocumentThread : uses
+MyDocumentThread --> DocumentFactory : uses
+MyDocumentThread --> VectorStoreFactory : uses
+
+@enduml

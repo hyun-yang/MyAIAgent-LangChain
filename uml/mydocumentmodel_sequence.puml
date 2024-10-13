@@ -1,0 +1,22 @@
+@startuml
+
+actor User
+participant MyDocumentModel
+participant MyDocumentThread
+participant DocumentFactory
+participant VectorStoreFactory
+
+User -> MyDocumentModel : prepare_document(args)
+MyDocumentModel -> MyDocumentThread : __init__(args)
+MyDocumentThread -> MyDocumentThread : run()
+MyDocumentThread -> DocumentFactory : create_document_loader(file_path)
+MyDocumentThread -> RecursiveCharacterTextSplitter : from_tiktoken_encoder(chunk_size, chunk_overlap)
+MyDocumentThread -> RecursiveCharacterTextSplitter : split_documents(docs_list)
+MyDocumentThread -> VectorStoreFactory : create_vector_store(vector_store, doc_splits, hf)
+VectorStoreFactory -> MyDocumentThread : retriever
+MyDocumentThread -> MyDocumentModel : retriever_signal.emit(retriever)
+MyDocumentThread -> MyDocumentThread : finish_run(model, finish_reason)
+MyDocumentThread -> MyDocumentModel : document_preprocess_finished_signal.emit(model, finish_reason, elapsed_time)
+MyDocumentModel -> User : thread_finished_signal.emit()
+
+@enduml

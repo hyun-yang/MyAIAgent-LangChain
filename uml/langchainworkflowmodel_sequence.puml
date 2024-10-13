@@ -1,0 +1,29 @@
+@startuml
+
+actor User
+participant LangchainWorkflowModel
+participant LangchainWorkflowThread
+participant GraphState
+
+User -> LangchainWorkflowModel: run_workflow(question)
+LangchainWorkflowModel -> LangchainWorkflowThread: __init__(args)
+LangchainWorkflowThread -> LangchainWorkflowThread: generate_workflow()
+LangchainWorkflowThread -> LangchainWorkflowThread: run()
+LangchainWorkflowThread -> GraphState: stream(question)
+GraphState -> LangchainWorkflowThread: return graphstate
+LangchainWorkflowThread -> LangchainWorkflowThread: route_question(graphstate)
+LangchainWorkflowThread -> LangchainWorkflowThread: retrieve(graphstate)
+LangchainWorkflowThread -> LangchainWorkflowThread: grade_documents(graphstate)
+LangchainWorkflowThread -> LangchainWorkflowThread: decide_to_generate(graphstate)
+LangchainWorkflowThread -> LangchainWorkflowThread: web_search(graphstate)
+LangchainWorkflowThread -> LangchainWorkflowThread: generate(graphstate)
+LangchainWorkflowThread -> LangchainWorkflowThread: grade_generation_v_documents_and_question(graphstate)
+LangchainWorkflowThread -> LangchainWorkflowThread: handle_response(response)
+LangchainWorkflowThread -> LangchainWorkflowModel: response_signal.emit()
+LangchainWorkflowModel -> User: response_signal.emit()
+LangchainWorkflowThread -> LangchainWorkflowThread: finish_run()
+LangchainWorkflowThread -> LangchainWorkflowModel: response_finished_signal.emit()
+LangchainWorkflowModel -> User: response_finished_signal.emit()
+LangchainWorkflowModel -> LangchainWorkflowModel: handle_thread_finished()
+
+@enduml

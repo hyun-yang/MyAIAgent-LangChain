@@ -1,0 +1,63 @@
+@startuml
+class MainWindow {
+    - _vision
+    - _settings
+    - _database
+    - current_llm
+    - current_system
+    - progress_bar
+    + __init__()
+    + initialize_manager()
+    + initialize_ui()
+    + initialize_window()
+    + set_main_widgets()
+}
+
+class SettingsManager {
+    + initialize_settings()
+    + get_settings(): dict
+}
+
+class DataManager {
+    + initialize_database()
+    + get_database(): object
+}
+
+class ChatPresenter {
+    - documentModel: MyDocumentModel
+    - workflowModel : LangchainWorkflowModel
+}
+
+class QStackedWidget {
+    + addWidget(widget)
+}
+
+class MyDocumentModel {
+    + thread_started_signal: pyqtSignal
+    + thread_finished_signal: pyqtSignal
+    + document_preprocess_error_signal: pyqtSignal
+    + document_preprocess_finished_signal: pyqtSignal
+    + retriever_signal: pyqtSignal
+    + prepare_document()
+    + handle_thread_finished()
+    + get_retriever_docs()
+    + force_stop()
+}
+
+class LangchainWorkflowModel {
+    + thread_started_signal: pyqtSignal
+    + thread_finished_signal: pyqtSignal
+    + response_signal: pyqtSignal
+    + response_finished_signal: pyqtSignal
+    + run_workflow()
+    + handle_thread_finished()
+    + force_stop()
+}
+
+MainWindow --> ChatPresenter
+MainWindow --> SettingsManager
+MainWindow --> DataManager
+MainWindow --> QStackedWidget
+ChatPresenter --> MyDocumentModel
+ChatPresenter --> LangchainWorkflowModel
+@enduml

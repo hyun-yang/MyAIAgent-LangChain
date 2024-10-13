@@ -1,0 +1,36 @@
+@startuml
+actor User
+participant MainWindow
+participant ChatPresenter
+
+User -> MainWindow: __init__()
+activate MainWindow
+MainWindow -> MainWindow: initialize_manager()
+MainWindow -> SettingsManager: initialize_settings()
+MainWindow -> SettingsManager: get_settings()
+activate SettingsManager
+SettingsManager --> MainWindow: settings
+deactivate SettingsManager
+MainWindow -> DataManager: initialize_database()
+MainWindow -> DataManager: get_database()
+activate DataManager
+DataManager --> MainWindow: database
+deactivate DataManager
+MainWindow -> MainWindow: initialize_variables()
+MainWindow -> MainWindow: initialize_ui()
+MainWindow -> MainWindow: initialize_window()
+deactivate MainWindow
+
+User -> MainWindow: Select "Chat" action
+MainWindow -> MainWindow: set_current_widget(MainWidgetIndex.CHAT_WIDGET)
+MainWindow -> ChatPresenter: Initialize ChatPresenter
+ChatPresenter -> MainWindow: thread_started_signal
+MainWindow -> MainWindow: show_result_info()
+ChatPresenter -> MainWindow: document_preprocess_finished_signal
+MainWindow -> MainWindow: show_result_info()
+ChatPresenter -> MainWindow: thread_started_signal
+MainWindow -> MainWindow: show_result_info()
+ChatPresenter -> MainWindow: response_finished_signal
+MainWindow -> MainWindow: show_result_info()
+
+@enduml
