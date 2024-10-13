@@ -74,8 +74,28 @@ python main.py
 
 ## Feature
 
-* Support text, pdf, word document
-* Support SKLearnVectorStore and FAISS vector store
+1) Versatile File Handling
+   * Supports a variety of file types, including Text, PDF, and Word, making it easy to work with different document
+     formats.
+
+2) Efficient Vector Data Storage
+   * Utilize SKLearnVectorStore and FAISS for robust and efficient vector data storage solutions.
+
+3) Advanced RAG System
+   * Leverage an advanced RAG system that incorporates Adaptive RAG, Corrective RAG, and Self-RAG techniques for enhanced data retrieval.
+
+4) Customizable Prompts and Instructions
+   * Enhance user interaction by allowing the addition of various prompts and instructions tailored to specific tasks.
+
+5) Diverse Embedding Model Support
+   * Integrate a wide range of Hugging Face embedding models for versatile applications in natural language processing.
+
+6) Ollama Model Compatibility
+   * Work with multiple Ollama models to expand the functionality of your application.
+
+7) Conversation History Management
+   * Store and review Q/A history in an SQLite database for easy access to past Q/A. 
+
 
 ## PyTorch Installation
 
@@ -118,7 +138,8 @@ add it to the **[Embedding_Model_List]** section as shown below.
 2) Open the settings.ini file and go to [Embedding_Model_List] section, add the name of the model.
 
 ```
-If the embedding model ID includes the '/' character, you need to replace slash '/' with '%5C' since QSetting class doesn't not process this character correctly when saving.
+If the embedding model ID includes the '/' character, you need to replace slash '/' with '%5C' 
+since QSetting class doesn't not process this character correctly when saving.
 
 For example :
 Embedding model id : nomic-ai/nomic-embed-text-v1.5
@@ -160,7 +181,8 @@ Here is the user question: \n\n {question}.
 
 This carefully and objectively assess whether the document contains at least some information that is relevant to the question.
 
-Return JSON with single key, binary_score, that is 'yes' or 'no' score to indicate whether the document contains at least some information that is relevant to the question.
+Return JSON with single key, binary_score, that is 'yes' or 'no' score to indicate whether the document contains at least some information 
+that is relevant to the question.
 ```
 
 * Document Instruction
@@ -194,7 +216,9 @@ Answer:
 ```markdown
 FACTS: \n\n {documents} \n\n STUDENT ANSWER: {generation}. 
 
-Return JSON with two two keys, binary_score is 'yes' or 'no' score to indicate whether the STUDENT ANSWER is grounded in the FACTS. And a key, explanation, that contains an explanation of the score.
+Return JSON with two two keys, binary_score is 'yes' or 'no' score to indicate whether the STUDENT ANSWER is grounded in the FACTS.
+
+And a key, explanation, that contains an explanation of the score.
 ```
 
 
